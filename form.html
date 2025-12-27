@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Cadastro Completo</title>
+    <style>
+        /* ============================================
+           RESET E CONFIGURAÇÕES GLOBAIS
+        ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* ============================================
+           CONTAINER PRINCIPAL
+        ============================================ */
+        .container {
+            background: white;
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============================================
+           CABEÇALHO
+        ============================================ */
+        .form-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .form-header h1 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* ============================================
+           GRUPOS DE FORMULÁRIO
+        ============================================ */
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-group label .required {
+            color: #ff6b6b;
+            margin-left: 3px;
+        }
+
+        /* ============================================
+           INPUTS
+        ============================================ */
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-control.error {
+            border-color: #ff6b6b;
+            background: #fff5f5;
+        }
+
+        .form-control.success {
+            border-color: #51cf66;
+            background: #f0fdf4;
+        }
+
+        /* ============================================
+           SELECT
+        ============================================ */
+        select.form-control {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            padding-right: 40px;
+        }
+
+        /* ============================================
+           TEXTAREA
+        ============================================ */
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+            font-family: inherit;
+        }
+
+        /* ============================================
+           CHECKBOX E RADIO
+        ============================================ */
+        .checkbox-group,
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item,
+        .radio-item {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .checkbox-item input[type="checkbox"],
+        .radio-item input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+
+        /* ============================================
+           MENSAGENS DE ERRO
+        ============================================ */
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+            animation: shake 0.3s ease;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* ============================================
+           MENSAGEM DE SUCESSO
+        ============================================ */
+        .success-message {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            animation: fadeInDown 0.5s ease;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============================================
+           BOTÕES
+        ============================================ */
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .btn-secondary:hover {
+            background: #dee2e6;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* ============================================
+           INDICADOR DE SENHA
+        ============================================ */
+        .password-strength {
+            margin-top: 8px;
+            height: 5px;
+            background: #e1e8ed;
+            border-radius: 5px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .password-strength.show {
+            display: block;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0%;
+            transition: all 0.3s ease;
+        }
+
+        .password-strength-bar.weak {
+            width: 33%;
+            background: #ff6b6b;
+        }
+
+        .password-strength-bar.medium {
+            width: 66%;
+            background: #ffd93d;
+        }
+
+        .password-strength-bar.strong {
+            width: 100%;
+            background: #51cf66;
+        }
+
+        .password-strength-text {
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .password-strength-text.show {
+            display: block;
+        }
+
+        /* ============================================
+           CONTADOR DE CARACTERES
+        ============================================ */
+        .char-counter {
+            text-align: right;
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* ============================================
+           RESPONSIVIDADE
+        ============================================ */
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+
+            .form-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        /* ============================================
+           ÍCONES DOS INPUTS
+        ============================================ */
+        .input-icon {
+            position: relative;
+        }
+
+        .input-icon::before {
+            content: attr(data-icon);
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: #999;
+            pointer-events: none;
+        }
+
+        .input-icon .form-control {
+            padding-left: 45px;
+        }
+
+        body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 15px;
+      background: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    .resultado {
+      margin-top: 20px;
+      padding: 15px;
+      background: #e8f5e9;
+      border: 1px solid #c8e6c9;
+      border-radius: 5px;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Cabeçalho -->
+        <div class="form-header">
+            <h1>📝 Formulário de Cadastro</h1>
+            <p>Preencha todos os campos obrigatórios</p>
+        </div>
+
+        <!-- Mensagem de Sucesso -->
+        <div class="success-message" id="successMessage">
+            ✅ Formulário enviado com sucesso!
+        </div>
+
+        <!-- Formulário -->
+        <form id="cadastroForm" novalidate>
+            
+            <!-- Nome Completo -->
+            <div class="form-group">
+                <label for="nome">
+                    Nome Completo<span class="required">*</span>
+                </label>
+                <div class="input-icon" data-icon="👤">
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="nome" 
+                        name="nome"
+                        placeholder="Digite seu nome completo"
+                        required
+                    >
+                </div>
+                <div class="error-message" id="nomeError">Por favor, insira seu nome completo</div>
+            </div>
+
+            <!-- Nome da Mãe -->
+            <div class="form-group">
+                <label for="nomeMae">
+                    Nome da Mãe<span class="required">*</span>
+                </label>
+                <div class="input-icon" data-icon="👩">
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="nomeMae" 
+                        name="nomeMae"
+                        placeholder="Digite o nome completo da sua mãe"
+                        required
+                    >
+                </div>
+                <div class="error-message" id="nomeMaeError">Por favor, insira o nome da mãe</div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email">
+                    E-mail<span class="required">*</span>
+                </label>
+                <div class="input-icon" data-icon="📧">
+                    <input 
+                        type="email" 
+                        class="form-control" 
+                        id="email" 
+                        name="email"
+                        placeholder="seuemail@exemplo.com"
+                        required
+                    >
+                </div>
+                <div class="error-message" id="emailError">Insira um e-mail válido</div>
+            </div>
+
+            <!-- Telefone -->
+            <div class="form-group">
+                <label for="telefone">
+                    Telefone<span class="required">*</span>
+                </label>
+                <div class="input-icon" data-icon="📱">
+                    <input 
+                        type="tel" 
+                        class="form-control" 
+                        id="telefone" 
+                        name="telefone"
+                        placeholder="(00) 00000-0000"
+                        required
+                    >
+                </div>
+                <div class="error-message" id="telefoneError">Insira um telefone válido</div>
+            </div>
+
+            <!-- CPF -->
+            <div class="form-group">
+                <label for="cpf">
+                    CPF<span class="required">*</span>
+                </label>
+                <div class="input-icon" data-icon="🆔">
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="cpf" 
+                        name="cpf"
+                        placeholder="000.000.000-00"
+                        required
+                    >
+                </div>
+                <div class="error-message" id="cpfError">Insira um CPF válido</div>
+            </div>
+
+            <!-- Data de Nascimento e Idade -->
+            <div class="form-group">
+                <label for="dataNascimento">
+                    Data de Nascimento<span class="required">*</span>
+                </label>
+                <input 
+                    type="date" 
+                    class="form-control" 
+                    id="dataNascimento" 
+                    name="dataNascimento"
+                    required
+                >
+                <div class="password-strength-text show" id="idadeDisplay" style="color: #667eea; font-weight: 600;">
+                    Idade será calculada automaticamente
+                </div>
+                <div class="error-message" id="dataNascimentoError">Selecione sua data de nascimento</div>
+            </div>
+
+            <!-- Gênero -->
+            <div class="form-group">
+                <label>
+                    Gênero<span class="required">*</span>
+                </label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="masculino" name="genero" value="masculino" required>
+                        <label for="masculino">Masculino</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="feminino" name="genero" value="feminino" required>
+                        <label for="feminino">Feminino</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="outro" name="genero" value="outro" required>
+                        <label for="outro">Outro</label>
+                    </div>
+                </div>
+                <div class="error-message" id="generoError">Selecione uma opção</div>
+            </div>
+
+            <!-- ENDEREÇO COMPLETO -->
+            <div class="form-group">
+                <h3 style="color: #667eea; margin: 30px 0 20px 0; border-bottom: 2px solid #667eea; padding-bottom: 10px;">
+                    📍 Endereço Completo
+                </h3>
+            </div>
+
+            <!-- CEP -->
+            <div class="form-group">
+                <label for="cep">
+                    CEP<span class="required">*</span>
+                </label>
+                <div class="input-icon" data-icon="📮">
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="cep" 
+                        name="cep"
+                        placeholder="00000-000"
+                        required
+                    >
+                </div>
+                <div class="error-message" id="cepError">Insira um CEP válido</div>
+            </div>
+
+            <!-- Rua -->
+            <div class="form-group">
+                <label for="rua">
+                    Rua/Avenida<span class="required">*</span>
+                </label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="rua" 
+                    name="rua"
+                    placeholder="Nome da rua"
+                    required
+                >
+                <div class="error-message" id="ruaError">Insira o nome da rua</div>
+            </div>
+
+            <!-- Número e Complemento -->
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 15px;">
+                <div class="form-group">
+                    <label for="numero">
+                        Número<span class="required">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="numero" 
+                        name="numero"
+                        placeholder="Nº"
+                        required
+                    >
+                    <div class="error-message" id="numeroError">Obrigatório</div>
+                </div>
+                <div class="form-group">
+                    <label for="complemento">
+                        Complemento
+                    </label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="complemento" 
+                        name="complemento"
+                        placeholder="Apto, Bloco, etc."
+                    >
+                </div>
+            </div>
+
+            <!-- Bairro -->
+            <div class="form-group">
+                <label for="bairro">
+                    Bairro<span class="required">*</span>
+                </label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="bairro" 
+                    name="bairro"
+                    placeholder="Nome do bairro"
+                    required
+                >
+                <div class="error-message" id="bairroError">Insira o bairro</div>
+            </div>
+
+            <!-- Cidade e Estado -->
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 15px;">
+                <div class="form-group">
+                    <label for="cidade">
+                        Cidade<span class="required">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="cidade" 
+                        name="cidade"
+                        placeholder="Sua cidade"
+                        required
+                    >
+                    <div class="error-message" id="cidadeError">Insira a cidade</div>
+                </div>
+                <div class="form-group">
+                    <label for="estado">
+                        Estado<span class="required">*</span>
+                    </label>
+                    <select class="form-control" id="estado" name="estado" required>
+                        <option value="">UF</option>
+                        <option value="AC">AC</option>
+                        <option value="AL">AL</option>
+                        <option value="AP">AP</option>
+                        <option value="AM">AM</option>
+                        <option value="BA">BA</option>
+                        <option value="CE">CE</option>
+                        <option value="DF">DF</option>
+                        <option value="ES">ES</option>
+                        <option value="GO">GO</option>
+                        <option value="MA">MA</option>
+                        <option value="MT">MT</option>
+                        <option value="MS">MS</option>
+                        <option value="MG">MG</option>
+                        <option value="PA">PA</option>
+                        <option value="PB">PB</option>
+                        <option value="PR">PR</option>
+                        <option value="PE">PE</option>
+                        <option value="PI">PI</option>
+                        <option value="RJ">RJ</option>
+                        <option value="RN">RN</option>
+                        <option value="RS">RS</option>
+                        <option value="RO">RO</option>
+                        <option value="RR">RR</option>
+                        <option value="SC">SC</option>
+                        <option value="SP">SP</option>
+                        <option value="SE">SE</option>
+                        <option value="TO">TO</option>
+                    </select>
+                    <div class="error-message" id="estadoError">Obrigatório</div>
+                </div>
+            </div>
+
+            <div class="container">
+                <form id="cadastroForm">
+                  <!-- Nível de Escolaridade -->
+                  <label for="escolaridade">Nível de Escolaridade:</label>
+                  <select id="escolaridade" required>
+                    <option value="">Selecione...</option>
+                    <option>Ensino Fundamental</option>
+                    <option>Ensino Médio</option>
+                    <option>Graduação</option>
+                    <option>Pós-graduação</option>
+                    <option>Mestrado</option>
+                    <option>Doutorado</option>
+                  </select>
+            
+                  <!-- Cursos Técnicos -->
+                  <label for="cursos">Cursos Técnicos:</label>
+                  <input type="text" id="cursos" placeholder="Ex: Técnico em Informática">
+            
+                  <!-- Experiências Profissionais -->
+                  <label for="experiencias">Experiências Profissionais:</label>
+                  <textarea id="experiencias" rows="4" placeholder="Descreva suas experiências"></textarea>
+            
+                  <!-- Especializações -->
+                  <label for="especializacoes">Especializações:</label>
+                  <input type="text" id="especializacoes" placeholder="Ex: Gestão de Projetos">
+            
+                </form>
+            
+                <div id="resultado" class="resultado" style="display:none;"></div>
+              </div>
+
+            <!-- DADOS PROFISSIONAIS -->
+            <div class="form-group">
+                <h3 style="color: #667eea; margin: 30px 0 20px 0; border-bottom: 2px solid #667eea; padding-bottom: 10px;">
+                    💼 Dados Profissionais
+                </h3>
+            </div>
+
+            <!-- Profissão -->
+            <div class="form-group">
+                <label for="profissao">
+                    Profissão<span class="required">*</span>
+                </label>
+                <div class="input-icon" data-icon="💼">
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="profissao" 
+                        name="profissao"
+                        placeholder="Sua profissão atual"
+                        required
+                    >
+                </div>
+                <div class="error-message" id="profissaoError">Insira sua profissão</div>
+            </div>
+
+            <!-- Renda Mensal -->
+            <div class="form-group">
+                <label for="renda">
+                    Renda Mensal<span class="required">*</span>
+                </label>
+                <div class="input-icon" data-icon="💰">
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="renda" 
+                        name="renda"
+                        placeholder="R$ 0.000,00"
+                        required
+                    >
+                </div>
+                <div class="error-message" id="rendaError">Insira sua renda mensal</div>
+            </div>
+
+            <!-- CNH -->
+            <div class="form-group">
+                <label for="cnh">
+                    Número da CNH (Carteira de Habilitação)
+                </label>
+                <div class="input-icon" data-icon="🚗">
+                    <input 
+                        type="text" 
+                        class="form-control" 
+                        id="cnh" 
+                        name="cnh"
+                        placeholder="00000000000"
+                        maxlength="11"
+                    >
+                </div>
+            </div>
+
+            <!-- CARACTERÍSTICAS FÍSICAS -->
+            <div class="form-group">
+                <h3 style="color: #667eea; margin: 30px 0 20px 0; border-bottom: 2px solid #667eea; padding-bottom: 10px;">
+                    📏 Características Físicas
+                </h3>
+            </div>
+
+            <!-- Altura e Peso -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="form-group">
+                    <label for="altura">
+                        Altura (cm)<span class="required">*</span>
+                    </label>
+                    <input 
+                        type="number" 
+                        class="form-control" 
+                        id="altura" 
+                        name="altura"
+                        placeholder="Ex: 175"
+                        min="50"
+                        max="250"
+                        required
+                    >
+                    <div class="error-message" id="alturaError">Insira sua altura</div>
+                </div>
+                <div class="form-group">
+                    <label for="peso">
+                        Peso (kg)<span class="required">*</span>
+                    </label>
+                    <input 
+                        type="number" 
+                        class="form-control" 
+                        id="peso" 
+                        name="peso"
+                        placeholder="Ex: 70"
+                        min="20"
+                        max="300"
+                        step="0.1"
+                        required
+                    >
+                    <div class="error-message" id="pesoError">Insira seu peso</div>
+                </div>
+            </div>
+
+            <!-- IMC Automático -->
+            <div class="password-strength-text show" id="imcDisplay" style="color: #667eea; font-weight: 600; text-align: center;">
+                IMC será calculado automaticamente
+            </div>
+
+            <!-- Cor/Raça -->
+            <div class="form-group">
+                <label for="cor">
+                    Cor/Raça<span class="required">*</span>
+                </label>
+                <select class="form-control" id="cor" name="cor" required>
+                    <option value="">Selecione uma opção</option>
+                    <option value="branca">Branca</option>
+                    <option value="preta">Preta</option>
+                    <option value="parda">Parda</option>
+                    <option value="amarela">Amarela</option>
+                    <option value="indigena">Indígena</option>
+                    <option value="nao-declarar">Prefiro não declarar</option>
+                </select>
+                <div class="error-message" id="corError">Selecione uma opção</div>
+            </div>
+
+            <!-- SAÚDE -->
+            <div class="form-group">
+                <h3 style="color: #667eea; margin: 30px 0 20px 0; border-bottom: 2px solid #667eea; padding-bottom: 10px;">
+                    🏥 Informações de Saúde
+                </h3>
+            </div>
+
+            <!-- Possui alguma doença -->
+            <div class="form-group">
+                <label>
+                    Possui alguma doença crônica ou condição de saúde?<span class="required">*</span>
+                </label>
+                <div class="radio-group">
+                    <div class="radio-item">
+                        <input type="radio" id="doencaSim" name="possuiDoenca" value="sim" required>
+                        <label for="doencaSim">Sim</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" id="doencaNao" name="possuiDoenca" value="nao" required>
+                        <label for="doencaNao">Não</label>
+                    </div>
+                </div>
+                <div class="error-message" id="possuiDoencaError">Selecione uma opção</div>
+            </div>
+
+            <!-- Qual doença (aparece se sim) -->
+            <div class="form-group" id="doencaDetalhes" style="display: none;">
+                <label for="doenca">
+                    Descreva a(s) doença(s) ou condição(ões)
+                </label>
+                <textarea 
+                    class="form-control" 
+                    id="doenca" 
+                    name="doenca"
+                    placeholder="Descreva suas condições de saúde..."
+                    rows="3"
+                ></textarea>
+            </div>
+
+            <!-- HOBBIES E INTERESSES -->
+            <div class="form-group">
+                <h3 style="color: #667eea; margin: 30px 0 20px 0; border-bottom: 2px solid #667eea; padding-bottom: 10px;">
+                    🎨 Hobbies e Interesses
+                </h3>
+            </div>
+
+            <!-- Hobbies -->
+            <div class="form-group">
+                <label for="hobbies">
+                    Hobbies e Atividades de Lazer
+                </label>
+                <textarea 
+                    class="form-control" 
+                    id="hobbies" 
+                    name="hobbies"
+                    placeholder="Descreva seus hobbies: esportes, leitura, música, viagens, etc..."
+                    rows="4"
+                    maxlength="500"
+                ></textarea>
+                <div class="char-counter">
+                    <span id="hobbiesCount">0</span>/500 caracteres
+                </div>
+            </div>
+
+            <!-- Áreas de Interesse -->
+            <div class="form-group">
+                <label>Áreas de Interesse</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="tecnologia" name="interesses" value="tecnologia">
+                        <label for="tecnologia">Tecnologia</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="esportes" name="interesses" value="esportes">
+                        <label for="esportes">Esportes</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="musica" name="interesses" value="musica">
+                        <label for="musica">Música</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="arte" name="interesses" value="arte">
+                        <label for="arte">Arte</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="viagens" name="interesses" value="viagens">
+                        <label for="viagens">Viagens</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="culinaria" name="interesses" value="culinaria">
+                        <label for="culinaria">Culinária</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEGURANÇA -->
+            <div class="form-group">
+                <h3 style="color: #667eea; margin: 30px 0 20px 0; border-bottom: 2px solid #667eea; padding-bottom: 10px;">
+                    🔒 Segurança
+                </h3>
+            </div>
+
+            <!-- Senha -->
+            <div class="form-group">
+                <label for="senha">
+                    Senha<span class="required">*</span>
+                </label>
+                <div class="input-icon" data-icon="🔒">
+                    <input 
+                        type="password" 
+                        class="form-control" 
+                        id="senha" 
+                        name="senha"
+                        placeholder="Mínimo 8 caracteres"
+                        required
+                    >
+                </div>
+                <div class="password-strength" id="passwordStrength">
+                    <div class="password-strength-bar" id="passwordStrengthBar"></div>
+                </div>
+                <div class="password-strength-text" id="passwordStrengthText"></div>
+                <div class="error-message" id="senhaError">A senha deve ter no mínimo 8 caracteres</div>
+            </div>
+
+            <!-- Confirmar Senha -->
+            <div class="form-group">
+                <label for="confirmarSenha">
+                    Confirmar Senha<span class="required">*</span>
+                </label>
+                <div class="input-icon" data-icon="🔒">
+                    <input 
+                        type="password" 
+                        class="form-control" 
+                        id="confirmarSenha" 
+                        name="confirmarSenha"
+                        placeholder="Digite a senha novamente"
+                        required
+                    >
+                </div>
+                <div class="error-message" id="confirmarSenhaError">As senhas não coincidem</div>
+            </div>
+
+            <!-- Interesses -->
+            <div class="form-group">
+                <label>Áreas de Interesse</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="tecnologia" name="interesses" value="tecnologia">
+                        <label for="tecnologia">Tecnologia</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="esportes" name="interesses" value="esportes">
+                        <label for="esportes">Esportes</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="musica" name="interesses" value="musica">
+                        <label for="musica">Música</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="arte" name="interesses" value="arte">
+                        <label for="arte">Arte</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mensagem -->
+            <div class="form-group">
+                <label for="mensagem">
+                    Mensagem (Opcional)
+                </label>
+                <textarea 
+                    class="form-control" 
+                    id="mensagem" 
+                    name="mensagem"
+                    placeholder="Digite sua mensagem aqui..."
+                    maxlength="500"
+                ></textarea>
+                <div class="char-counter">
+                    <span id="charCount">0</span>/500 caracteres
+                </div>
+            </div>
+
+            <!-- Termos -->
+            <div class="form-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="termos" name="termos" required>
+                    <label for="termos">
+                        Aceito os termos e condições<span class="required">*</span>
+                    </label>
+                </div>
+                <div class="error-message" id="termosError">Você deve aceitar os termos</div>
+            </div>
+
+            <!-- Botões -->
+            <div class="form-actions">
+                <button type="reset" class="btn btn-secondary">
+                    🔄 Limpar
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    ✅ Enviar Cadastro
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        
+        // ============================================
+        // MÁSCARAS DE INPUT
+        // ============================================
+
+        // Máscara de Telefone
+        document.getElementById('telefone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length <= 11) {
+                value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+                value = value.replace(/(\d)(\d{4})$/, '$1-$2');
+            }
+            e.target.value = value;
+        });
+
+        // Máscara de CPF
+        document.getElementById('cpf').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d)/, '$1.$2');
+            value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+            e.target.value = value;
+        });
+
+        // Máscara de CEP
+        document.getElementById('cep').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.replace(/^(\d{5})(\d)/, '$1-$2');
+            e.target.value = value;
+        });
+
+        // Máscara de Renda
+        document.getElementById('renda').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            value = (parseInt(value) / 100).toFixed(2);
+            value = value.replace('.', ',');
+            value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+            e.target.value = 'R$ ' + value;
+        });
+
+        // Máscara de CNH
+        document.getElementById('cnh').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            e.target.value = value.substring(0, 11);
+        });
+
+        // Cálculo automático de Idade
+        document.getElementById('dataNascimento').addEventListener('change', function() {
+            const dataNasc = new Date(this.value);
+            const hoje = new Date();
+            let idade = hoje.getFullYear() - dataNasc.getFullYear();
+            const mes = hoje.getMonth() - dataNasc.getMonth();
+            
+            if (mes < 0 || (mes === 0 && hoje.getDate() < dataNasc.getDate())) {
+                idade--;
+            }
+            
+            document.getElementById('idadeDisplay').textContent = `Idade: ${idade} anos`;
+            document.getElementById('idadeDisplay').style.color = '#51cf66';
+        });
+
+        // Cálculo automático de IMC
+        function calcularIMC() {
+            const altura = parseFloat(document.getElementById('altura').value);
+            const peso = parseFloat(document.getElementById('peso').value);
+            
+            if (altura && peso) {
+                const alturaMetros = altura / 100;
+                const imc = (peso / (alturaMetros * alturaMetros)).toFixed(2);
+                
+                let classificacao = '';
+                let cor = '';
+                
+                if (imc < 18.5) {
+                    classificacao = 'Abaixo do peso';
+                    cor = '#ffd93d';
+                } else if (imc < 25) {
+                    classificacao = 'Peso normal';
+                    cor = '#51cf66';
+                } else if (imc < 30) {
+                    classificacao = 'Sobrepeso';
+                    cor = '#ff922b';
+                } else {
+                    classificacao = 'Obesidade';
+                    cor = '#ff6b6b';
+                }
+                
+                document.getElementById('imcDisplay').textContent = `IMC: ${imc} - ${classificacao}`;
+                document.getElementById('imcDisplay').style.color = cor;
+            }
+        }
+
+        document.getElementById('altura').addEventListener('input', calcularIMC);
+        document.getElementById('peso').addEventListener('input', calcularIMC);
+
+        // Mostrar/Ocultar campo de doença
+        document.querySelectorAll('input[name="possuiDoenca"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const detalhes = document.getElementById('doencaDetalhes');
+                if (this.value === 'sim') {
+                    detalhes.style.display = 'block';
+                } else {
+                    detalhes.style.display = 'none';
+                    document.getElementById('doenca').value = '';
+                }
+            });
+        });
+
+        // Contador de caracteres para hobbies
+        const hobbiesTextarea = document.getElementById('hobbies');
+        const hobbiesCount = document.getElementById('hobbiesCount');
+
+        hobbiesTextarea.addEventListener('input', function() {
+            hobbiesCount.textContent = this.value.length;
+        });
+
+        // Buscar CEP automaticamente
+        document.getElementById('cep').addEventListener('blur', async function() {
+            const cep = this.value.replace(/\D/g, '');
+            
+            if (cep.length === 8) {
+                try {
+                    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                    const data = await response.json();
+                    
+                    if (!data.erro) {
+                        document.getElementById('rua').value = data.logradouro;
+                        document.getElementById('bairro').value = data.bairro;
+                        document.getElementById('cidade').value = data.localidade;
+                        document.getElementById('estado').value = data.uf;
+                        
+                        // Focar no campo número
+                        document.getElementById('numero').focus();
+                    }
+                } catch (error) {
+                    console.log('Erro ao buscar CEP:', error);
+                }
+            }
+        });
+
+        // ============================================
+        // VALIDAÇÃO DE SENHA
+        // ============================================
+
+        const senhaInput = document.getElementById('senha');
+        const strengthBar = document.getElementById('passwordStrengthBar');
+        const strengthText = document.getElementById('passwordStrengthText');
+        const strengthContainer = document.getElementById('passwordStrength');
+
+        senhaInput.addEventListener('input', function() {
+            const senha = this.value;
+            
+            if (senha.length === 0) {
+                strengthContainer.classList.remove('show');
+                strengthText.classList.remove('show');
+                return;
+            }
+
+            strengthContainer.classList.add('show');
+            strengthText.classList.add('show');
+
+            let strength = 0;
+            
+            // Verifica comprimento
+            if (senha.length >= 8) strength++;
+            // Verifica letras minúsculas
+            if (/[a-z]/.test(senha)) strength++;
+            // Verifica letras maiúsculas
+            if (/[A-Z]/.test(senha)) strength++;
+            // Verifica números
+            if (/[0-9]/.test(senha)) strength++;
+            // Verifica caracteres especiais
+            if (/[^a-zA-Z0-9]/.test(senha)) strength++;
+
+            strengthBar.className = 'password-strength-bar';
+            
+            if (strength <= 2) {
+                strengthBar.classList.add('weak');
+                strengthText.textContent = '❌ Senha fraca';
+                strengthText.style.color = '#ff6b6b';
+            } else if (strength <= 4) {
+                strengthBar.classList.add('medium');
+                strengthText.textContent = '⚠️ Senha média';
+                strengthText.style.color = '#ffd93d';
+            } else {
+                strengthBar.classList.add('strong');
+                strengthText.textContent = '✅ Senha forte';
+                strengthText.style.color = '#51cf66';
+            }
+        });
+
+        // ============================================
+        // CONTADOR DE CARACTERES
+        // ============================================
+
+        const mensagemTextarea = document.getElementById('mensagem');
+        const charCount = document.getElementById('charCount');
+
+        mensagemTextarea.addEventListener('input', function() {
+            charCount.textContent = this.value.length;
+        });
+
+        // ============================================
+        // VALIDAÇÃO DO FORMULÁRIO
+        // ============================================
+
+        const form = document.getElementById('cadastroForm');
+
+        // Validação de Email
+        function validarEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Validação de CPF
+        function validarCPF(cpf) {
+            cpf = cpf.replace(/\D/g, '');
+            if (cpf.length !== 11) return false;
+            
+            // Verifica se todos os dígitos são iguais
+            if (/^(\d)\1{10}$/.test(cpf)) return false;
+            
+            return true; // Validação simplificada
+        }
+
+        // Validação de Telefone
+        function validarTelefone(telefone) {
+            const cleaned = telefone.replace(/\D/g, '');
+            return cleaned.length === 10 || cleaned.length === 11;
+        }
+
+        // Mostrar erro
+        function mostrarErro(inputId, errorId) {
+            const input = document.getElementById(inputId);
+            const error = document.getElementById(errorId);
+            
+            input.classList.add('error');
+            input.classList.remove('success');
+            error.classList.add('show');
+        }
+
+        // Mostrar sucesso
+        function mostrarSucesso(inputId, errorId) {
+            const input = document.getElementById(inputId);
+            const error = document.getElementById(errorId);
+            
+            input.classList.add('success');
+            input.classList.remove('error');
+            error.classList.remove('show');
+        }
+
+        // Validar campo
+        function validarCampo(inputId, errorId, validacao) {
+            const input = document.getElementById(inputId);
+            const valor = input.value.trim();
+
+            if (validacao(valor)) {
+                mostrarSucesso(inputId, errorId);
+                return true;
+            } else {
+                mostrarErro(inputId, errorId);
+                return false;
+            }
+        }
+
+        // Submit do formulário
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            let isValid = true;
+
+            // Validar Nome
+            isValid &= validarCampo('nome', 'nomeError', (v) => v.length >= 3);
+
+            // Validar Email
+            isValid &= validarCampo('email', 'emailError', validarEmail);
+
+            // Validar Telefone
+            isValid &= validarCampo('telefone', 'telefoneError', validarTelefone);
+
+            // Validar CPF
+            isValid &= validarCampo('cpf', 'cpfError', validarCPF);
+
+            // Validar Data de Nascimento
+            isValid &= validarCampo('dataNascimento', 'dataNascimentoError', (v) => v !== '');
+
+            // Validar Gênero
+            const generoSelecionado = document.querySelector('input[name="genero"]:checked');
+            if (!generoSelecionado) {
+                document.getElementById('generoError').classList.add('show');
+                isValid = false;
+            } else {
+                document.getElementById('generoError').classList.remove('show');
+            }
+
+            // Validar Estado
+            isValid &= validarCampo('estado', 'estadoError', (v) => v !== '');
+
+            // Validar Senha
+            const senha = document.getElementById('senha').value;
+            isValid &= validarCampo('senha', 'senhaError', (v) => v.length >= 8);
+
+            // Validar Confirmar Senha
+            const confirmarSenha = document.getElementById('confirmarSenha').value;
+            if (senha !== confirmarSenha) {
+                mostrarErro('confirmarSenha', 'confirmarSenhaError');
+                isValid = false;
+            } else if (confirmarSenha.length >= 8) {
+                mostrarSucesso('confirmarSenha', 'confirmarSenhaError');
+            }
+
+            // Validar Termos
+            const termos = document.getElementById('termos');
+            if (!termos.checked) {
+                document.getElementById('termosError').classList.add('show');
+                isValid = false;
+            } else {
+                document.getElementById('termosError').classList.remove('show');
+            }
+
+            // Se tudo válido, enviar
+            if (isValid) {
+                // Aqui você pode enviar os dados para um servidor
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData);
+                
+                console.log('Dados do formulário:', data);
+                
+                // Mostrar mensagem de sucesso
+                document.getElementById('successMessage').classList.add('show');
+                
+                // Scroll para o topo
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Limpar formulário após 2 segundos
+                setTimeout(() => {
+                    form.reset();
+                    document.getElementById('successMessage').classList.remove('show');
+                    // Remover classes de validação
+                    document.querySelectorAll('.form-control').forEach(input => {
+                        input.classList.remove('success', 'error');
+                    });
+                }, 3000);
+            }
+        });
+
+        // Validação em tempo real
+        document.getElementById('email').addEventListener('blur', function() {
+            validarCampo('email', 'emailError', validarEmail);
+        });
+
+        document.getElementById('cpf').addEventListener('blur', function() {
+            validarCampo('cpf', 'cpfError', validarCPF);
+        });
+
+        document.getElementById('telefone').addEventListener('blur', function() {
+            validarCampo('telefone', 'telefoneError', validarTelefone);
+        });
+
+        // Reset do formulário
+        form.addEventListener('reset', function() {
+            setTimeout(() => {
+                document.querySelectorAll('.error-message').forEach(error => {
+                    error.classList.remove('show');
+                });
+                document.querySelectorAll('.form-control').forEach(input => {
+                    input.classList.remove('success', 'error');
+                });
+                strengthContainer.classList.remove('show');
+                strengthText.classList.remove('show');
+                charCount.textContent = '0';
+            }, 0);
+        });
+
+        const form = document.getElementById('cadastroForm');
+    const resultado = document.getElementById('resultado');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const escolaridade = document.getElementById('escolaridade').value;
+      const cursos = document.getElementById('cursos').value;
+      const experiencias = document.getElementById('experiencias').value;
+      const especializacoes = document.getElementById('especializacoes').value;
+
+      resultado.style.display = 'block';
+      resultado.innerHTML = `
+        <h3>Dados Recebidos:</h3>
+        <p><strong>Escolaridade:</strong> ${escolaridade}</p>
+        <p><strong>Cursos Técnicos:</strong> ${cursos}</p>
+        <p><strong>Experiências Profissionais:</strong> ${experiencias}</p>
+        <p><strong>Especializações:</strong> ${especializacoes}</p>
+      `;
+    });
+    </script>
